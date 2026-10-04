@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>داشبورد المستخلصات والمستهدف المالي 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#F4F7FE;--card:#fff;--tx:#1F2A44;--sub:#6B7794;--line:#E6EBFA;--pu:#6C5CE7;--sky:#38BDF8;--mint:#2DD4BF;--sun:#FFB020;--co:#FF6B81;--lav:#E2E8FF;}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Tajawal','IBM Plex Sans Arabic',Tahoma,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+.hero{background:linear-gradient(120deg,#6C5CE7 0%,#5B8DEF 55%,#38BDF8 100%);color:#fff;border-radius:26px;padding:26px 28px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.14)}
+.hero h1{font-size:25px;font-weight:800;position:relative}
+.hero .sub{opacity:.9;font-size:14px;margin-top:4px;position:relative}
+.hbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;position:relative;align-items:center}
+.pill{background:rgba(255,255,255,.22);padding:7px 16px;border-radius:20px;font-size:13.5px;font-weight:700}
+.btn{border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;padding:8px 18px;border-radius:20px;background:#fff;color:var(--pu)}
+.goal{display:flex;gap:16px;align-items:flex-start;margin-top:16px}
+.goal .ic{font-size:30px;background:linear-gradient(135deg,#FFE29A,#FFB020);border-radius:16px;padding:8px 12px}
+.goal h2{font-size:16px;margin-bottom:4px}.goal p{font-size:14px;color:var(--sub)}
+.card{background:var(--card);border-radius:22px;padding:18px;box-shadow:0 8px 24px rgba(80,90,160,.08)}
+h3.t{font-size:17px;font-weight:800;margin:26px 4px 12px;display:flex;align-items:center;gap:8px}
+h3.t:before{content:"";width:8px;height:22px;border-radius:6px;background:linear-gradient(var(--pu),var(--sky))}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.kpi{border-radius:22px;padding:16px 18px;color:#fff}
+.kpi .l{font-size:13px;opacity:.92}.kpi .v{font-size:23px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums}.kpi .v small{font-size:12px;font-weight:500;margin-right:6px;opacity:.9}
+.k1{background:linear-gradient(135deg,#6C5CE7,#8B7CF6)}.k2{background:linear-gradient(135deg,#14B8A6,#2DD4BF)}.k3{background:linear-gradient(135deg,#0EA5E9,#38BDF8)}
+.k4{background:linear-gradient(135deg,#10B981,#34D399)}.k5{background:linear-gradient(135deg,#F59E0B,#FFB020)}.k6{background:linear-gradient(135deg,#F43F5E,#FF6B81)}
+.sx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:900px}
+th{background:#EEF1FF;color:var(--pu);padding:11px 8px;font-weight:700;text-align:center}
+td{padding:11px 8px;text-align:center;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+td.n{font-weight:800;text-align:right}
+tfoot td{background:#F4F1FF;font-weight:800;border-bottom:none}
+.bar{height:10px;border-radius:8px;background:var(--lav);display:flex;overflow:hidden;min-width:110px}
+.bar i{display:block;height:100%}.pc{font-size:12px;font-weight:700;margin-top:3px}
+.b{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700}
+.ok{background:#D9F7EE;color:#0F8F77}.lo{background:#FFE1E6;color:#D6314F}.hi{background:#FFF0CF;color:#B87A00}.na{background:#ECEFF8;color:var(--sub)}
+.rng{font-size:12px;color:var(--sub)}
+.grid2{display:grid;grid-template-columns:3fr 2fr;gap:14px}.chbox{position:relative;height:320px;width:100%;margin:0 auto}.card.ch{text-align:center;padding:16px 8px}.card.ch .ct{font-weight:700;margin-bottom:8px;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.st{border-radius:20px;padding:16px;background:var(--card);box-shadow:0 8px 24px rgba(80,90,160,.08);border-top:5px solid var(--pu)}
+.st:nth-child(2){border-color:var(--sky)}.st:nth-child(3){border-color:var(--mint)}
+.st b{display:block;font-size:15px;margin-bottom:4px}.st span{font-size:13px;color:var(--sub)}
+.foot{text-align:center;color:var(--sub);font-size:12px;margin:22px 0 6px}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2,.steps{grid-template-columns:1fr}.kpi .v{font-size:18px}.hero h1{font-size:20px}.chbox{height:280px}}
+@media print{@page{size:A4 landscape;margin:8mm}body{background:#fff}.noprint{display:none!important}.card,.kpi,.st{box-shadow:none;break-inside:avoid}.wrap{padding:0}h3.t{break-after:avoid}.sx{overflow:visible}table{min-width:0;font-size:11px}.chbox{height:260px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="hero">
+  <h1 id="ttl"></h1>
+  <div class="sub">آخر تحديث للبيانات: <span id="upd"></span></div>
+  <div class="hbar">
+   <span class="pill" id="cd"></span>
+   <input type="file" id="fi" accept=".xlsx,.xls" style="display:none">
+   <button class="btn noprint" onclick="document.getElementById('fi').click()">⟳ رفع البيانات</button>
+   <button class="btn noprint" onclick="window.print()">⬇ حفظ PDF</button>
+  </div>
+ </div>
+ <div class="card goal"><div class="ic">🎯</div><div><h2>الهدف من هذا التقرير</h2><p id="goal"></p></div></div>
+ <div class="kpis" id="kpis"></div>
+
+ <h3 class="t">تفاصيل كل مشروع</h3>
+ <div class="card sx" id="tbl"></div>
+
+ <h3 class="t">الرسوم البيانية</h3>
+ <div class="grid2">
+  <div class="card ch"><div class="ct">المصروف وتحت الصرف + المبلغ المستهدف مقابل قيمة كل مشروع</div><div class="chbox"><canvas id="c1"></canvas></div></div>
+  <div class="card ch"><div class="ct">توزيع إجمالي قيمة المشاريع</div><div class="chbox"><canvas id="c2"></canvas></div></div>
+ </div>
+ <div class="card ch" style="margin-top:14px"><div class="ct">المبلغ المستهدف مقابل النطاق المطلوب والمحقق</div><div class="chbox"><canvas id="c3"></canvas></div></div>
+
+ <h3 class="t">آلية العمل</h3>
+ <div class="steps" id="steps"></div>
+ <div class="foot">المبلغ المستهدف هو مستخلص جديد نسعى لتحصيله قبل الإقفال، ويُضاف إلى المصروف وتحت الصرف. «تحت الصرف» من مرحلة «تسجيل أمر دفع (إرسال)» حتى «تحويل أمر الدفع لوزارة المالية».</div>
+</div>
+<script>
+let DATA = {"settings": {"عنوان التقرير": "متابعة المستخلصات والمستهدف المالي قبل إقفال السنة المالية 2026", "الهدف من التقرير": "تحديد مبلغ مستخلص مستهدف لكل مشروع نسعى لتحصيله قبل إقفال المطالبات للسنة المالية 2026 (بين 25% و30% من قيمة المشروع)، وقياس ما تحقق منه، وبيان أثره على المصروف وتحت الصرف والمتبقي من قيمة المشروع.", "تاريخ إقفال المطالبات": "2026-10-15", "النسبة الدنيا للمستخلص القادم (%)": 25, "النسبة العليا للمستخلص القادم (%)": 30}, "projects": [{"name": "مركز جازان", "value": 25255534.38, "target": 6900000, "notes": "", "ach": 0, "lo": 25, "hi": 30}, {"name": "مركز عسير", "value": 22998532.08, "target": 6300000, "notes": "", "ach": 0, "lo": 25, "hi": 30}, {"name": "مركز الباحة", "value": 24104000, "target": 6600000, "notes": "", "ach": 0, "lo": 25, "hi": 30}, {"name": "مركز القصيم", "value": 25274607.21, "target": 7000000, "notes": "", "ach": 0, "lo": 25, "hi": 30}, {"name": "مركز حائل", "value": 25210660.79, "target": 6900000, "notes": "", "ach": 0, "lo": 25, "hi": 30}], "claims": [{"project": "مركز جازان", "num": 1, "amount": 524423.48, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 2, "amount": 598669.88, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 3, "amount": 1426602.6, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 4, "amount": 392689.25, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 5, "amount": 352176, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 6, "amount": 537444.94, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 7, "amount": 593042.7, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 8, "amount": 923980.9, "status": "تم الصرف"}, {"project": "مركز جازان", "num": 9, "amount": 1967626.35, "status": "تحويل أمر الدفع لوزارة المالية"}, {"project": "مركز جازان", "num": 10, "amount": 4936942.4, "status": "تحويل أمر الدفع لوزارة المالية"}, {"project": "مركز عسير", "num": 1, "amount": 2153887.79, "status": "تم الصرف"}, {"project": "مركز عسير", "num": 2, "amount": 1770714.23, "status": "تم الصرف"}, {"project": "مركز عسير", "num": 3, "amount": 5497905.12, "status": "إرفاق شهادة الإنجاز (قبول الطلب)"}, {"project": "مركز الباحة", "num": 1, "amount": 20305.69, "status": "تم الصرف"}, {"project": "مركز الباحة", "num": 2, "amount": 149789.57, "status": "تم الصرف"}, {"project": "مركز الباحة", "num": 3, "amount": 254014.1, "status": "تم الصرف"}, {"project": "مركز الباحة", "num": 4, "amount": 1317129.67, "status": "تم الصرف"}, {"project": "مركز الباحة", "num": 5, "amount": 326492.99, "status": "تم الصرف"}, {"project": "مركز الباحة", "num": 6, "amount": 1815207.98, "status": "تم الصرف"}, {"project": "مركز الباحة", "num": 7, "amount": 1863006.96, "status": "تم الصرف"}, {"project": "مركز الباحة", "num": 8, "amount": 5077174.25, "status": "سيتم إعادة رفع المطالبة بعد إضافة حساب الوسيط"}, {"project": "مركز القصيم", "num": 1, "amount": 497941.68, "status": "تم الصرف"}, {"project": "مركز القصيم", "num": 2, "amount": 737819.1, "status": "تم الصرف"}, {"project": "مركز القصيم", "num": 3, "amount": 574474.8, "status": "تم الصرف"}, {"project": "مركز القصيم", "num": 4, "amount": 1891465.9, "status": "تحويل أمر الدفع لوزارة المالية"}, {"project": "مركز القصيم", "num": 5, "amount": 5274266.15, "status": "إرفاق شهادة الإنجاز (قبول الطلب)"}, {"project": "مركز حائل", "num": 1, "amount": 828053.83, "status": "تحويل أمر الدفع لوزارة المالية"}, {"project": "مركز حائل", "num": 2, "amount": 1110858.59, "status": "تسجيل مطالبة (إرسال الطلب)"}], "statuses": ["تسجيل مطالبة (إرسال الطلب)", "إرفاق شهادة الإنجاز (قبول الطلب)", "تدقيق المطالبة (قبول الطلب)", "اعتماد المطالبة", "تسجيل أمر صرف (إرسال)", "اعتماد مدير الإدارة المالية لأمر الصرف", "اعتماد صاحب الصلاحية النهائي لأمر الصرف", "اعتماد المراقب المالي لأمر الصرف", "أمر صرف معتمد - مطالبة معتمدة", "تسجيل أمر دفع (إرسال)", "اعتماد مدقق أمر الدفع", "اعتماد مدير الإدارة المالية لأمر الدفع", "اعتماد صاحب الصلاحية النهائي لأمر الدفع", "اعتماد المراقب المالي لأمر الدفع", "تحويل أمر الدفع لوزارة المالية", "تم الصرف"], "steps": [{"title": "تحديد المبلغ المستهدف", "text": "يُحدَّد لكل مشروع مبلغ مستخلص نسعى لتحصيله قبل إقفال المطالبات، بحيث لا يقل عن 25% ولا يزيد عن 30% من قيمة المشروع."}, {"title": "إعداد وتقديم المستخلص", "text": "يُعدّ المستخلص ويُقدَّم في منصة اعتماد قبل تاريخ الإقفال، ويُسجَّل المبلغ المحقق منه في الإكسل."}, {"title": "المتابعة حتى الصرف", "text": "يُتابع المستخلص حتى مرحلة أمر الدفع (تحت الصرف) ثم الصرف الفعلي، وتُحدَّث نسبة تحقيق الهدف."}]};
+const fmt=n=>Math.round(Number(n)||0).toLocaleString('en-US');
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+const money=n=>'<span>'+fmt(n)+'</span><small>ريال</small>';
+let charts=[];
+function pctv(x){ if(x===null||x===undefined||x==='') return null; let v=parseFloat(String(x).replace('%','').replace(',','.')); if(isNaN(v)) return null; return (v>1?v/100:v); }
+function calc(){
+  const U=DATA.statuses.indexOf('تسجيل أمر دفع (إرسال)'), last=DATA.statuses.length-1;
+  const S=DATA.settings, glo=pctv(S['النسبة الدنيا للمستخلص القادم (%)'])||0.25, ghi=pctv(S['النسبة العليا للمستخلص القادم (%)'])||0.30;
+  return DATA.projects.map(p=>{
+    const cl=DATA.claims.filter(c=>c.project===p.name);
+    const spent=sum(cl.filter(c=>c.status==='تم الصرف'),c=>+c.amount||0);
+    const under=sum(cl.filter(c=>{const i=DATA.statuses.indexOf(c.status);return i>=U&&i<last;}),c=>+c.amount||0);
+    const value=+p.value||0, target=+p.target||0, ach=+p.ach||0, lo=pctv(p.lo)||glo, hi=pctv(p.hi)||ghi;
+    return {name:p.name,value,spent,under,target,ach,min:value*lo,max:value*hi,lo,hi,after:Math.max(value-spent-under-target,0)};
+  });
+}
+function render(){
+  const R=calc(), S=DATA.settings;
+  document.getElementById('steps').innerHTML=(DATA.steps||[]).map((s,i)=>'<div class="st"><b>'+(i+1)+' - '+s.title+'</b><span>'+s.text+'</span></div>').join('');
+  document.getElementById('ttl').textContent=S['عنوان التقرير']||'';
+  document.getElementById('goal').textContent=S['الهدف من التقرير']||'';
+  document.getElementById('upd').textContent=new Date().toLocaleDateString('ar-SA-u-nu-latn');
+  const close=new Date(S['تاريخ إقفال المطالبات']||'2026-10-15'), d=Math.ceil((close-new Date())/86400000);
+  document.getElementById('cd').textContent=d>0?('⏳ متبقي '+d+' يوم على إقفال المطالبات ('+close.toLocaleDateString('en-GB')+')'):('انتهى موعد إقفال المطالبات '+close.toLocaleDateString('en-GB'));
+  const T={value:sum(R,r=>r.value),spent:sum(R,r=>r.spent),under:sum(R,r=>r.under),target:sum(R,r=>r.target),ach:sum(R,r=>r.ach),after:sum(R,r=>r.after)};
+  const exp=T.spent+T.under+T.target;
+  document.getElementById('kpis').innerHTML=[
+   ['k1','إجمالي قيمة المشاريع',T.value],['k2','إجمالي المصروف',T.spent],['k3','إجمالي تحت الصرف',T.under],
+   ['k4','المصروف + تحت الصرف',T.spent+T.under],['k5','إجمالي المبلغ المستهدف (مستخلصات قبل الإقفال)',T.target],['k6','الإجمالي المتوقع (مصروف + تحت الصرف + المستهدف)',exp]
+  ].map(k=>'<div class="kpi '+k[0]+'"><div class="l">'+k[1]+'</div><div class="v">'+money(k[2])+'</div></div>').join('');
+  const row=r=>{
+    const pc=r.target?Math.min(r.ach/r.target*100,100):0;
+    const b=!r.target?'<span class="b na">لم يُحدد</span>':r.target<r.min?'<span class="b lo">أقل من الحد الأدنى</span>':r.target>r.max?'<span class="b hi">أعلى من الحد الأعلى</span>':'<span class="b ok">✓ ضمن النطاق</span>';
+    return '<tr><td class="n">'+r.name+'</td><td>'+fmt(r.value)+'</td><td>'+fmt(r.spent)+'</td><td>'+fmt(r.under)+'</td>'
+     +'<td style="font-weight:800;color:#B87A00">'+fmt(r.target)+'</td><td style="font-weight:800;color:#0F8F77">'+fmt(r.ach)+'</td>'
+     +'<td style="min-width:130px"><div class="bar"><i style="width:'+pc+'%;background:linear-gradient(90deg,#2DD4BF,#38BDF8)"></i></div><div class="pc">'+Math.round(pc)+'%</div></td>'
+     +'<td><div class="rng">'+fmt(r.min)+' – '+fmt(r.max)+'</div><div class="rng">('+Math.round(r.lo*1000)/10+'% – '+Math.round(r.hi*1000)/10+'%)</div>'+b+'</td><td>'+fmt(r.after)+'</td></tr>';
+  };
+  const tp=T.target?Math.min(T.ach/T.target*100,100):0;
+  document.getElementById('tbl').innerHTML='<table><thead><tr><th>المشروع</th><th>القيمة</th><th>المصروف</th><th>تحت الصرف</th><th>المبلغ المستهدف<br><small>(مستخلص قبل الإقفال)</small></th><th>مبلغ المستخلص المحقق</th><th>نسبة تحقيق الهدف</th><th>النطاق المطلوب</th><th>المتبقي بعد المستهدف</th></tr></thead><tbody>'+R.map(row).join('')
+   +'</tbody><tfoot><tr><td class="n">الإجمالي</td><td>'+fmt(T.value)+'</td><td>'+fmt(T.spent)+'</td><td>'+fmt(T.under)+'</td><td>'+fmt(T.target)+'</td><td>'+fmt(T.ach)+'</td><td>'+Math.round(tp)+'%</td><td></td><td>'+fmt(T.after)+'</td></tr></tfoot></table>';
+  charts.forEach(c=>c.destroy()); charts=[];
+  Chart.defaults.font.family="'Tajawal',Tahoma,sans-serif"; Chart.defaults.font.size=12;
+  const mob=window.innerWidth<600, lb=R.map(r=>r.name.replace('مركز ',''));
+  const leg={position:'bottom',rtl:true,labels:{boxWidth:12,padding:12,usePointStyle:true}};
+  const yy=st=>({stacked:st,display:!mob,afterFit:sc=>{if(mob)sc.width=0;},ticks:{callback:v=>(v/1e6)+'م'},grid:{color:'#EEF1FF'}});
+  const bo={responsive:true,maintainAspectRatio:false,layout:{padding:0},plugins:{legend:leg}};
+  charts.push(new Chart('c1',{type:'bar',data:{labels:lb,datasets:[
+   {label:'المصروف',data:R.map(r=>r.spent),backgroundColor:'#2DD4BF',borderRadius:6,stack:'a',barPercentage:.9},
+   {label:'تحت الصرف',data:R.map(r=>r.under),backgroundColor:'#38BDF8',borderRadius:6,stack:'a',barPercentage:.9},
+   {label:'المبلغ المستهدف',data:R.map(r=>r.target),backgroundColor:'#FFB020',borderRadius:6,stack:'a',barPercentage:.9},
+   {label:'قيمة المشروع',data:R.map(r=>r.value),backgroundColor:'#C9D3F5',borderRadius:6,stack:'b',barPercentage:.9}]},
+   options:Object.assign({},bo,{scales:{x:{stacked:true,grid:{display:false}},y:yy(true)}})}));
+  charts.push(new Chart('c2',{type:'doughnut',data:{labels:['المصروف','تحت الصرف','المبلغ المستهدف','المتبقي بعد المستهدف'],datasets:[{data:[T.spent,T.under,T.target,T.after],backgroundColor:['#2DD4BF','#38BDF8','#FFB020','#E2E8FF'],borderWidth:3,borderColor:'#fff'}]},
+   options:Object.assign({},bo,{cutout:'62%',plugins:{legend:leg,tooltip:{callbacks:{label:c=>c.label+': '+fmt(c.parsed)+' ريال'}}}})}));
+  charts.push(new Chart('c3',{type:'bar',data:{labels:lb,datasets:[
+   {label:'الحد الأدنى للنطاق',data:R.map(r=>r.min),backgroundColor:'#BFD7FF',borderRadius:6},
+   {label:'الحد الأعلى للنطاق',data:R.map(r=>r.max),backgroundColor:'#8B7CF6',borderRadius:6},
+   {label:'المبلغ المستهدف',data:R.map(r=>r.target),backgroundColor:'#FFB020',borderRadius:6},
+   {label:'مبلغ المستخلص المحقق',data:R.map(r=>r.ach),backgroundColor:'#2DD4BF',borderRadius:6}]},
+   options:Object.assign({},bo,{scales:{x:{grid:{display:false}},y:yy(false)}})}));
+}
+function norm(k){return String(k).replace(/[\u200B-\u200F\u00A0]/g,' ').replace(/\s+/g,' ').trim();}
+function rd(wb,n){const ws=wb.Sheets[n];return ws?XLSX.utils.sheet_to_json(ws,{defval:''}).map(r=>{const o={};Object.keys(r).forEach(k=>o[norm(k)]=r[k]);return o;}):[];}
+function load(buf){
+  const wb=XLSX.read(new Uint8Array(buf),{type:'array',cellDates:false}), st={};
+  rd(wb,'إعدادات_المستهدف').forEach(r=>{st[r['البند']]=r['القيمة'];});
+  const tg={}; rd(wb,'المستهدف').forEach(r=>{tg[String(r['اسم المشروع (مفتاح)']).trim()]=r;});
+  const pj=rd(wb,'بيانات_المشاريع').filter(r=>r['اسم المشروع (مفتاح)']).map(r=>{const k=String(r['اسم المشروع (مفتاح)']).trim(), g=tg[k]||{}, nx=g['مبلغ المستخلص المحقق من المستهدف (ريال)'];
+    return {name:k,lo:g['النسبة الدنيا للنطاق (%)'],hi:g['النسبة العليا للنطاق (%)'],value:r['قيمة المشروع (ريال)'],target:g['المبلغ المستهدف (ريال)']||0,ach:(nx===''||nx===undefined)?0:nx};});
+  const cl=rd(wb,'مستخلصات_اعتماد').filter(r=>r['اسم المشروع']).map(r=>({project:String(r['اسم المشروع']).trim(),num:r['رقم المستخلص'],amount:r['مبلغ المستخلص (ريال)'],status:String(r['الحالة في منصة اعتماد']||'').trim()}));
+  const sp=rd(wb,'آلية_العمل').filter(r=>r['العنوان']).map(r=>({title:r['العنوان'],text:r['الوصف']}));
+  if(pj.length){ DATA={settings:Object.assign({},DATA.settings,st),projects:pj,claims:cl,statuses:DATA.statuses,steps:sp.length?sp:DATA.steps}; render(); }
+}
+document.getElementById('fi').addEventListener('change',e=>{const f=e.target.files[0]; if(f) f.arrayBuffer().then(load);});
+render();
+fetch('project-data.xlsx').then(r=>r.ok?r.arrayBuffer():null).then(b=>{if(b)load(b);}).catch(()=>{});
+window.addEventListener('beforeprint',()=>charts.forEach(c=>c.resize()));
+</script>
+</body>
+</html>
